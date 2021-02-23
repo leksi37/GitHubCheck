@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { threadId } from 'worker_threads';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,6 @@ export class GithubReaderService {
     }, () => {
       this.errorSubject.next("Problem occurred, while trying to access the selected repository. Please try again.")
     });
-
     // //Another option to perfrom requests *Uncomment to try this way*
     // let request = new XMLHttpRequest();
     // request.open("GET", repoUrl);
@@ -48,6 +48,16 @@ export class GithubReaderService {
     //     console.log(`error ${request.status} ${request.statusText}`);
     //   }
     // };
+  }
+
+  //Makes sense to use Subject instead of Observable
+  public getRepoDetailsPeriodically(repoUrl: string){
+    while(true){
+      let timeout = setTimeout( () => {
+          this.getRepoInfo(repoUrl);
+          clearTimeout(timeout);
+        }, 10000 );
+    }
   }
 }
 
