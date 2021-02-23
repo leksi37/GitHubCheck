@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { threadId } from 'worker_threads';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +18,13 @@ export class GithubReaderService {
     this.httpClient.get(`https://api.github.com/users/${user}/repos`)
     .subscribe((response: any) => {
         let arr: [] = response;
-        for(let j = 0; j < arr.length; j++){
+        if(arr.length == 0){
+          this.errorSubject.next("User doesn't have any public repositories.");
+        }else{
+          for(let j = 0; j < arr.length; j++){
           this.githubSubject.next(arr[j]);
         }
-      
+        }     
     }, () => {
       this.errorSubject.next("User doesn't exist")
     });
@@ -36,6 +38,7 @@ export class GithubReaderService {
     }, () => {
       this.errorSubject.next("Problem occurred, while trying to access the selected repository. Please try again.")
     });
+
     // //Another option to perfrom requests *Uncomment to try this way*
     // let request = new XMLHttpRequest();
     // request.open("GET", repoUrl);

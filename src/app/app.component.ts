@@ -75,7 +75,7 @@ export class AppComponent {
       this.repoInfo.push(`Updated: ${response.updated_at}`);
       this.repoInfo.push(`Pushed: ${response.pushed_at}`);
       this.repoInfo.push(`Repository size: ${response.size}`);
-      //sub.unsubscribe();
+      sub.unsubscribe();
     }));
     this._githubService.getRepoInfo(url);
   }
