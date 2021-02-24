@@ -1,11 +1,6 @@
-<!-- <div class="mb-3">
-  <label for="formGroupExampleInput" class="form-label">Check GitHub repo:</label>
-  <input #userName (keyup.enter)="onEnter(userName.value)" type="text" class="form-control" placeholder="Enter Github username">
-  <button (click)="searchForRepos(userName.value)">Search</button>
-</div> -->
 <div class="container-fluid">
   <h3>GitHub repository check</h3>
-  
+  <div>Time: {{ time | async }}</div>
   <h6>Enter Github name:</h6>
   <div class="col-xs-2">
     <input class="form-control" placeholder="ex. alex90" #userInput (keyup.enter)="onEnter(userInput.value)">
@@ -14,13 +9,13 @@
     <button class="btn btn-md btn-info" (click)="searchForRepos(userInput.value)">Search</button>
   </div>
   <br>
-  <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length>0">
+  <div class="alert alert-danger" role="alert" *ngIf="isError$ | async">
     {{errorMessage}}
   </div>       
 </div>
-<div class="row">
+<div class="row" *ngIf="repositories$ != null">
 <div class="container col-md-6">
-<table class="table table-striped table-sm" *ngIf="repoList.length>0">
+<table class="table table-striped table-sm">
   <thead>
   <tr>
     <th scope="col">Repository Name</th>
@@ -29,10 +24,10 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let repo of repoList">
+  <tr *ngFor="let repo of repositories$ | async">
     <th scope="row">{{ repo.name }}</th>
-    <td><button class="btn btn-sm btn-info"><a id = "GFG" href={{repo.homepageUrl}} target="_blank">check repo</a></button></td>
-    <td><button class="btn btn-sm btn-info" (click)="requestRepoInfo(repo.displayUrl)">show info</button></td>
+    <td><button class="btn btn-sm btn-info"><a id = "GFG" href={{repo.html_url}} target="_blank">check repo</a></button></td>
+    <td><button class="btn btn-sm btn-info" (click)="requestRepoInfo(repo.url)">show info</button></td>
   </tr>
   </tbody>
 </table>

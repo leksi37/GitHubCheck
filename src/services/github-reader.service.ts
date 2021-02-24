@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, empty, Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -61,6 +61,23 @@ export class GithubReaderService {
           clearTimeout(timeout);
         }, 10000 );
     }
+  }
+
+  public checkForReposAsync(username: string): Observable<any>{
+    return this.httpClient.get(`https://api.github.com/users/${username}/repos`);
+
+    // .subscribe((response: any) => {
+    //     let arr: [] = response;
+    //     if(arr.length == 0){
+    //       this.errorSubject.next("User doesn't have any public repositories.");
+    //     }else{
+    //       for(let j = 0; j < arr.length; j++){
+    //       this.githubSubject.next(arr[j]);
+    //     }
+    //     }     
+    // }, () => {
+    //   this.errorSubject.next("User doesn't exist")
+    // });
   }
 }
 
