@@ -1,0 +1,9 @@
+<div class="alert alert-danger alert-md" role="alert"
+  *ngIf="errorMessage.length>0 || (repositories$ | async)?.length==0 && errorMessage.length==0">
+  <p *ngIf="errorMessage != ''">
+    {{errorMessage}}
+  </p>
+  <p *ngIf="(repositories$ | async)?.length==0 && errorMessage == ''">
+    {{NO_REPOSITORIES}}
+  </p>
+</div>

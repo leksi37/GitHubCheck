@@ -1,0 +1,12 @@
+<div *ngIf="(repoDetails$ | async)?.length > 0">
+  <div class="inline container-fluid">
+    <b>{{repoName}}</b> details:
+    <button mat-icon-button color="warn" class="content" (click)="addBookmark()">
+      <mat-icon>favorite</mat-icon>
+    </button>
+  </div>
+  <hr>
+  <p class="break-newline">
+    {{repoDetails$ | async}}
+  </p>
+</div>

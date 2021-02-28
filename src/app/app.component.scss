@@ -2,6 +2,22 @@ a{
     text-decoration: none;
     color:white;
 }
-.row{
-    padding: 1%;
+.mat-table{
+    background-color:darkred;
+    font-size: large;
+}
+
+h1{
+    color: darkred;
+    font-style: initial;
+}
+
+.container-fluid{
+    margin: 1%;
+}
+
+.cornered{
+    position: absolute;
+	right: 0; 
+    top: 0;
 }
