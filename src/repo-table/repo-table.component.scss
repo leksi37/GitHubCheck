@@ -2,9 +2,8 @@ a{
     text-decoration: none;
     color:white;
 }
-table{
+mat-table,mat-paginator{
     width: 100%;
-    padding: 10%;
-    margin: 1%;
     background-color:darkred;
 }
+

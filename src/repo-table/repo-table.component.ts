@@ -1,4 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { Repo } from 'src/shared-classes/repo';
 
@@ -12,8 +15,18 @@ import { Repo } from 'src/shared-classes/repo';
 })
 export class RepoTableComponent {
   displayedColumns = ['name', 'url', 'details'];
-  @Input() repositories$: Observable<Repo[]> = new Observable<Repo[]>();
+  @Input() repositories: Repo[] = [];
   @Output() detailsRequest = new EventEmitter<string>();
+
+  dataSource: MatTableDataSource<Repo>;
+  //Currently not working
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+
+  ngOnInit() {
+    this.dataSource = new MatTableDataSource<Repo>(this.repositories);
+    this.dataSource.paginator = this.paginator;
+  }
 
   /**
    * Redirects a request to the parent component to request details about the selected repository

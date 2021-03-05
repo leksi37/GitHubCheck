@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output} from '@angular/core';
-import { Observable} from 'rxjs';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'repo-details',
@@ -17,12 +17,11 @@ export class RepoDetailsComponent {
 
   /**
    * This method is used for notifying the parent class that a bookmarked should be created 
-   * @param repoName the name of the repository passed through the event emitter
    */
-  public addBookmark(){
+  public addBookmark() {
     this.repoDetails$.forEach(value => {
-     let owner = value.substring(value.indexOf("Owner:")+7, value.indexOf("Full"));
-     this.bookmark.next(`${owner}:${this.repoName}`);
+      let owner = value.substring(value.indexOf("Owner:") + 7, value.indexOf("Full"));
+      this.bookmark.next(`${owner}:${this.repoName}`);
     });
   }
 } 

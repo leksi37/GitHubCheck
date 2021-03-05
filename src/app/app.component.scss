@@ -2,22 +2,32 @@ a{
     text-decoration: none;
     color:white;
 }
-.mat-table{
-    background-color:darkred;
-    font-size: large;
-}
 
 h1{
     color: darkred;
     font-style: initial;
 }
 
-.container-fluid{
-    margin: 1%;
-}
-
 .cornered{
     position: absolute;
 	right: 0; 
     top: 0;
+}
+mat-grid-list{
+    width: 100%;
+    align-items: in;
+    margin-left: 0%;
+}
+bookmark-bar{
+    width: 70%;
+}
+repo-list-table, repo-details{
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+}
+
+.inputnbookmarks{
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
 }

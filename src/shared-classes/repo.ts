@@ -6,6 +6,7 @@ export class Repo{
     public html_url: string;
     public url: string;
     public full_name: string;
+    public repoDetails: string;
   
     constructor(name: string, html_url: string, url: string, full_name: string){
       this.name = name;

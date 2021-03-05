@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BookmarkService } from 'src/services/bookmark.service';
+import { Repo } from 'src/shared-classes/repo';
 
 /**
  * This component handles the bookmarks bar
@@ -12,32 +13,27 @@ import { BookmarkService } from 'src/services/bookmark.service';
 })
 export class BookmarksComponent {
 
-  public bookmarks: string[] = [];
-  @Output() details = new EventEmitter<Observable<string>>();
+  public bookmarks$: Observable<string[]> | null = null;
+  @Output() details = new EventEmitter<string>();
   @Output() clearAlerts = new EventEmitter();
 
   constructor(private _bookmarkService: BookmarkService) { }
 
   /**
-   * Creates a bookmark through the bookmark service
-   * @param repoInfo contains a string in the following formar => "repository-name:owner"
+   * Creates a bookmark through the bookmark service and requests a list with the bookmarks
+   * @param repoInfo contains a Repo object
    */
-  public addBookmark(repoInfo: string) {
-    this._bookmarkService.addBookmark(repoInfo.substring(repoInfo.indexOf(":") + 1), repoInfo.substring(0, repoInfo.indexOf(":")));
-    let timeout = setTimeout(getBookmarks.bind(this), 700);
-    function getBookmarks() {
-      this.bookmarks = this._bookmarkService.getBookmarks();
-      clearTimeout(timeout);
-    }
-
+  public addBookmark(repo: Repo) {
+    this._bookmarkService.addBookmark(repo);
+    this.bookmarks$ = this._bookmarkService.getBookmarks$();
   }
 
   /**
-   * Requests the details of the bookmarked repository through the bookmark service
+   * Requests the the bookmark Repo object
    * @param bookmark the name of the repository
    */
   public openBookmark(bookmark: string) {
     this.clearAlerts.next();
-    this.details.next(this._bookmarkService.openBookmark(bookmark));
+    this.details.next(this._bookmarkService.openBookmark(bookmark).url);
   }
 }

@@ -1,14 +1,9 @@
-import { Component, Input, SecurityContext, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Observable, Observer, of, ReplaySubject, Subject, Subscription } from 'rxjs';
+import { Component,  ViewChild } from '@angular/core';
+import { Observable, Observer, of } from 'rxjs';
 import { GithubReaderService } from 'src/services/github-reader.service';
-import { catchError, first, map, take } from 'rxjs/operators';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
+import { catchError, map } from 'rxjs/operators';
 import { AlertComponent } from 'src/alert/alert.component';
 import { Repo } from 'src/shared-classes/repo';
-import { BookmarkService } from 'src/services/bookmark.service';
 import { BookmarksComponent } from 'src/bookmarks/bookmarks.component';
 
 @Component({
@@ -72,19 +67,28 @@ export class AppComponent {
 
   /**
    * Used as a redirective method from one child component to another for the creation of a bookmark
-   * @param repoInfo contains a string in the following formar => "repository-name:owner"
+   * @param repoInfo contains a string in the following format => "owner:repository-name"
    */
   public addBookmark(repoInfo: string) {
-    this.bookmark.addBookmark(repoInfo);
+    this._githubService.checkForReposObservable(repoInfo.substring(0, repoInfo.indexOf(":")))
+    .forEach(repoarr => {
+        for(let i = 0; i < repoarr.length; i++){
+          console.log(repoarr[i].name);
+          if(repoarr[i].name == repoInfo.substring(repoInfo.indexOf(":") + 1)){
+            this.bookmark.addBookmark(repoarr[i]);
+      }
+        }
+    })
+    
   }
 
   /**
-   * Used to fetch the details received from the bookmark component, which from the other side received it from the bookmark service
-   * @param details contains details about a repository
+   * Used to fetch the details about a bookmarked repository
+   * @param repoUrl contains the url for the repository details
    * The difference between this method and requestRepoInfo() is that this one is called through a bookmark and the other one through the repository table
    */
-  public displayBookmarkDetails(details: Observable<string>) {
-    this.fetchDetails(details);
+  public displayBookmarkDetails(repoUrl: string) {
+    this.requestRepoInfo(repoUrl);
   }
 
   /**
@@ -115,6 +119,7 @@ export class AppComponent {
         Updated: ${formatDate(response.updated_at)}
         Pushed: ${formatDate(response.pushed_at)}
         Repository size: ${response.size}`;
+        
 
           function formatDate(date: string): string {
             return new Date(date).toDateString();

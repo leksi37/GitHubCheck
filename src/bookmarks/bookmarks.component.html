@@ -1,13 +1,13 @@
-<div *ngIf="bookmarks.length <= 5">
-  <div *ngFor="let bookmark of bookmarks" class="inline space">
+<div class="line" *ngIf="(bookmarks$ | async)?.length <= 4">
+  <div *ngFor="let bookmark of (bookmarks$ | async)" class="inline space">
     <button mat-raised-button color="warn" (click)="openBookmark(bookmark)">{{bookmark}}</button>
   </div>
 </div>
 
-<div *ngIf="bookmarks.length>5">
+<div *ngIf="(bookmarks$ | async)?.length>4">
   <button mat-button color="warn" [matMenuTriggerFor]="menu">Bookmarks</button>
   <mat-menu #menu="matMenu">
-    <div *ngFor="let bookmark of bookmarks" class="inline space">
+    <div *ngFor="let bookmark of (bookmarks$ | async)" class="inline space">
       <button mat-menu-item color="warn" (click)="openBookmark(bookmark)">{{bookmark}}</button>
     </div>
   </mat-menu>

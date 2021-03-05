@@ -1,8 +1,13 @@
 .inline{
     display: inline;
+    justify-content: flex-start;
 }
 
 .space{
     margin-right: 0.5%;
-    margin-left: 0.3%;
+    margin-left: 0.5%;
+}
+
+.line{
+    width: 100%;
 }

@@ -2,18 +2,22 @@ p.break-newline{
     white-space: pre-wrap;
 }
 
-div{
-    font-size: medium;
+p{
     color: darkred;
+    font-size: medium;
 }
+
 
 .content{
     vertical-align: top !important;
-
 }
 
 .inline{
     display: inline-flex;
     width: 100%;
     align-items: center;
+}
+
+.icon{
+    vertical-align: baseline;
 }
