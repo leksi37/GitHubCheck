@@ -16,7 +16,7 @@
   <mat-grid-tile>
     <!-- A child component for the list with the user repositories -->
     <repo-list-table (detailsRequest)="requestRepoInfo($event)" [repositories]="repositories$ | async"
-      [hidden]="(repositories$ == null)"></repo-list-table>
+      [hidden]="((repositories$ | async) == null || (repositories$ | async)?.length == 0)"></repo-list-table>
   </mat-grid-tile>
   <mat-grid-tile>
     <!-- A child component for the details about a selected repository -->
